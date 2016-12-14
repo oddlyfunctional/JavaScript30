@@ -61,13 +61,48 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: transform cubic-bezier(0.24, 0.7, 0.18, 2.42) 0.05s;
     }
 
   </style>
 
   <script>
+    setTime();
+    setInterval(setTime, 1000);
 
+    var secondsCounter = 0;
+    var minutesCounter = 0;
+    var hoursCounter = 0;
 
+    function setTime() {
+      var time = new Date();
+
+      var secondsDegree = 360 / 60 * (time.getSeconds() + secondsCounter);
+      var minutesDegree = 360 / 60 * (time.getMinutes() + minutesCounter);
+      var hoursDegree = 360 / 12 * (time.getHours() + hoursCounter);
+
+      if (time.getSeconds() === 59) {
+        secondsCounter += 60;
+
+        if (time.getMinutes() === 59) {
+          minutesCounter += 60;
+
+          if (time.getHours() === 11) {
+            secondsCounter += 12;
+          }
+        }
+      }
+
+      rotate(secondsDegree, document.querySelector('.second-hand'));
+      rotate(minutesDegree, document.querySelector('.min-hand'));
+      rotate(hoursDegree, document.querySelector('.hour-hand'));
+    }
+
+    function rotate(deg, el) {
+      el.style.transform = `rotate(${90 + deg}deg)`;
+    }
   </script>
 </body>
 </html>
